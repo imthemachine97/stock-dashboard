@@ -1,0 +1,12 @@
+# One ticker symbol per line. Lines starting with # are ignored.
+# Edit this list, commit, and push - the dashboard updates itself.
+SPY
+QQQ
+DIA
+AAPL
+MSFT
+NVDA
+AMZN
+GOOGL
+META
+TSLA

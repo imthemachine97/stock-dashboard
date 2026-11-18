@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stock Watchlist</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <div>
+      <h1>Stock Watchlist</h1>
+      <p class="muted" id="updated">Loading…</p>
+    </div>
+    <div class="controls">
+      <div class="seg" role="group" aria-label="Time range" id="ranges">
+        <button data-range="21">1M</button>
+        <button data-range="63">3M</button>
+        <button data-range="126">6M</button>
+        <button data-range="252" class="on">1Y</button>
+      </div>
+      <div class="seg" role="group" aria-label="View" id="views">
+        <button data-view="cards" class="on">Charts</button>
+        <button data-view="table">Table</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="detail" id="detail" aria-live="polite">
+      <div class="detail-head">
+        <div>
+          <h2 id="d-symbol"></h2>
+          <p class="muted" id="d-name"></p>
+        </div>
+        <div class="right">
+          <div class="big" id="d-price"></div>
+          <div id="d-change"></div>
+        </div>
+      </div>
+      <div class="chart" id="d-chart"></div>
+    </section>
+
+    <section class="grid" id="cards"></section>
+    <section class="table-wrap" id="table" hidden></section>
+  </main>
+
+  <footer class="muted">
+    Daily closing prices from Yahoo Finance, refreshed each weekday after the US market closes.
+    For information only - not investment advice.
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

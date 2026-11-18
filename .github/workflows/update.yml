@@ -1,0 +1,53 @@
+name: Update prices
+
+on:
+  schedule:
+    - cron: "30 21 * * 1-5"   # weekdays, 21:30 UTC (after the US market closes)
+  workflow_dispatch:           # adds a "Run workflow" button on GitHub
+  push:
+    branches: [main]
+
+permissions:
+  contents: write   # commit the refreshed data/prices.json
+  pages: write      # publish the site
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Download prices
+        run: python3 scripts/fetch_prices.py
+
+      - name: Save prices to the repository
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/prices.json
+          if git diff --staged --quiet; then
+            echo "No changes."
+          else
+            git commit -m "Update prices"
+            git push
+          fi
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: .
+
+  deploy:
+    needs: update
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
